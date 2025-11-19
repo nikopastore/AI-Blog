@@ -3,6 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db/prisma";
 import { formatDate } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import NewsletterPopup from "@/components/NewsletterPopup";
 
 export const revalidate = 3600;
 
@@ -109,6 +110,8 @@ export default async function BlogPostPage({
           </div>
         </article>
       </main>
+
+      <NewsletterPopup />
     </div>
   );
 }

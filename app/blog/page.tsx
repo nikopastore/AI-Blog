@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db/prisma";
 import { formatDate } from "@/lib/utils";
+import NewsletterPopup from "@/components/NewsletterPopup";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -85,6 +86,9 @@ export default async function BlogPage() {
           )}
         </div>
       </main>
+
+      {/* Newsletter Popup */}
+      <NewsletterPopup />
     </div>
   );
 }
