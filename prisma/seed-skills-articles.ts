@@ -591,15 +591,10 @@ Traditional software has clear success metrics. AI output quality requires more 
 
 ## Prompt Versioning and Testing
 
-Leading teams treat prompts like code:
-```
-prompts/
-  customer-support/
-    ticket-triage/
-      v1.txt
-      v2.txt
-      v3.txt (current)
-```
+Leading teams treat prompts like code, organizing them in versioned directories like:
+- prompts/customer-support/ticket-triage/v1.txt
+- prompts/customer-support/ticket-triage/v2.txt
+- prompts/customer-support/ticket-triage/v3.txt (current)
 
 Each version includes metadata: performance metrics, test results, deployment date, and rationale for changes.
 
