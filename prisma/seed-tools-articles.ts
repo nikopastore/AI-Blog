@@ -1,9 +1,17 @@
 import { PrismaClient } from '@prisma/client';
-import { slugify } from '../lib/utils';
 
 const prisma = new PrismaClient();
 
-// 40+ AI and Data Tool articles for business audiences
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/--+/g, '-')
+    .trim();
+}
+
+// 51 AI and Data Tool articles for business audiences
 const TOOL_ARTICLES = [
   {
     title: "Snowflake for Business: Cloud Data Warehouse That Scales with Your Growth",
