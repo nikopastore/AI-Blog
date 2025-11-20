@@ -5,6 +5,10 @@
       "schedule": "0 6 * * *"
     },
     {
+      "path": "/api/cron/daily-article",
+      "schedule": "0 9 * * *"
+    },
+    {
       "path": "/api/cron/daily-newsletter",
       "schedule": "0 8 * * *"
     }
