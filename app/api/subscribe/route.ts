@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db/prisma";
-import { sendWelcomeEmail } from "@/lib/email/resend";
+import { sendVerificationEmail } from "@/lib/email/resend";
 import { z } from "zod";
+import crypto from "crypto";
 
 const subscribeSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -18,42 +19,68 @@ export async function POST(request: NextRequest) {
     });
 
     if (existing) {
-      if (existing.status === "active") {
+      if (existing.verified && existing.status === "active") {
         return NextResponse.json(
           { error: "This email is already subscribed" },
           { status: 400 }
         );
+      } else if (!existing.verified) {
+        // Resend verification email
+        const token = crypto.randomBytes(32).toString("hex");
+
+        await prisma.subscription.update({
+          where: { email },
+          data: {
+            verificationToken: token,
+          },
+        });
+
+        await sendVerificationEmail(email, token);
+
+        return NextResponse.json({
+          message: "Verification email resent! Please check your inbox.",
+        });
       } else {
         // Reactivate subscription
+        const token = crypto.randomBytes(32).toString("hex");
+
         await prisma.subscription.update({
           where: { email },
           data: {
             status: "active",
             subscribedAt: new Date(),
             unsubscribedAt: null,
+            verificationToken: token,
+            verified: false,
           },
         });
 
+        await sendVerificationEmail(email, token);
+
         return NextResponse.json({
-          message: "Welcome back! Your subscription has been reactivated.",
+          message: "Welcome back! Please verify your email to reactivate your subscription.",
         });
       }
     }
 
-    // Create new subscription
+    // Generate verification token
+    const token = crypto.randomBytes(32).toString("hex");
+
+    // Create new subscription (unverified)
     await prisma.subscription.create({
       data: {
         email,
         status: "active",
-        verified: true, // Auto-verify for now
+        verified: false,
+        verificationToken: token,
       },
     });
 
-    // Send welcome email
-    await sendWelcomeEmail(email);
+    // Send verification email
+    await sendVerificationEmail(email, token);
 
     return NextResponse.json({
-      message: "Successfully subscribed! Check your email for a welcome message.",
+      message: "Almost there! Please check your email to verify your subscription.",
     });
   } catch (error) {
     console.error("Subscribe error:", error);

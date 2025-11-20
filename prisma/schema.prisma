@@ -70,11 +70,14 @@ model Post {
   authorId    String?
   author      User?     @relation(fields: [authorId], references: [id])
   tags        String[]
+  viewCount   Int       @default(0)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  views       PostView[]
 
   @@index([slug])
   @@index([published, publishedAt])
+  @@index([viewCount])
 }
 
 model Topic {
@@ -123,6 +126,18 @@ model Subscription {
 
   @@index([email])
   @@index([status])
+}
+
+model PostView {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  viewedAt  DateTime @default(now())
+  ipAddress String?
+  userAgent String?
+
+  @@index([postId])
+  @@index([viewedAt])
 }
 
 enum NewsletterStatus {

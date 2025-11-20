@@ -66,6 +66,55 @@ export async function sendNewsletterToSubscribers(
   return results;
 }
 
+export async function sendVerificationEmail(email: string, token: string) {
+  const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/verify-email?token=${token}`;
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Verify Your Email - AI Business Insights</title>
+      </head>
+      <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h1 style="color: #2563eb;">Verify Your Email Address</h1>
+
+          <p>Hi there,</p>
+
+          <p>Thanks for subscribing to AI Business Insights! To complete your subscription and start receiving daily AI insights, please verify your email address.</p>
+
+          <p style="text-align: center; margin: 40px 0;">
+            <a href="${verificationUrl}"
+               style="background-color: #2563eb; color: white; padding: 14px 32px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: 600;">
+              Verify Email Address
+            </a>
+          </p>
+
+          <p style="color: #6b7280; font-size: 14px;">
+            Or copy and paste this link into your browser:<br>
+            <a href="${verificationUrl}" style="color: #2563eb; word-break: break-all;">${verificationUrl}</a>
+          </p>
+
+          <p>This link will expire in 24 hours for security reasons.</p>
+
+          <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
+
+          <p style="font-size: 12px; color: #6b7280;">
+            If you didn't subscribe to AI Business Insights, you can safely ignore this email.
+          </p>
+        </div>
+      </body>
+    </html>
+  `;
+
+  return sendEmail({
+    to: email,
+    subject: 'Verify your email - AI Business Insights',
+    html,
+  });
+}
+
 export async function sendWelcomeEmail(email: string, name?: string) {
   const html = `
     <!DOCTYPE html>
