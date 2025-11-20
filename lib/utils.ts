@@ -63,3 +63,29 @@ export function extractEmailSubject(content: string): { subject: string; body: s
 
   return { subject: 'AI Business Insights Newsletter', body: content };
 }
+
+export function calculateReadingTime(content: string): number {
+  // Average reading speed: 200-250 words per minute
+  // We'll use 225 as a middle ground
+  const wordsPerMinute = 225;
+
+  // Remove markdown syntax and special characters for accurate word count
+  const cleanedContent = content
+    .replace(/[#*`_\[\]()]/g, '') // Remove markdown symbols
+    .replace(/\n/g, ' ') // Replace newlines with spaces
+    .trim();
+
+  // Count words (split by whitespace)
+  const wordCount = cleanedContent.split(/\s+/).filter(word => word.length > 0).length;
+
+  // Calculate minutes and round up
+  const minutes = Math.ceil(wordCount / wordsPerMinute);
+
+  return minutes;
+}
+
+export function formatReadingTime(minutes: number): string {
+  if (minutes < 1) return '< 1 min read';
+  if (minutes === 1) return '1 min read';
+  return `${minutes} min read`;
+}

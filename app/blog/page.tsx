@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db/prisma";
-import { formatDate } from "@/lib/utils";
+import { formatDate, calculateReadingTime, formatReadingTime } from "@/lib/utils";
 import NewsletterPopup from "@/components/NewsletterPopup";
+import ArticleSearch from "@/components/ArticleSearch";
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -30,9 +31,14 @@ export default async function BlogPage() {
       <main className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-4">AI Insights Blog</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 mb-12">
+          <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
             Practical guides and insights on using AI tools to grow your business
           </p>
+
+          {/* Search Bar */}
+          <div className="mb-12">
+            <ArticleSearch />
+          </div>
 
           {posts.length === 0 ? (
             <div className="text-center py-12">
@@ -53,6 +59,13 @@ export default async function BlogPage() {
                         <time dateTime={post.publishedAt?.toISOString()}>
                           {post.publishedAt ? formatDate(post.publishedAt) : ''}
                         </time>
+                        <span>•</span>
+                        <span className="flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          {formatReadingTime(calculateReadingTime(post.content))}
+                        </span>
                         {post.tags.length > 0 && (
                           <div className="flex gap-2">
                             {post.tags.slice(0, 3).map((tag) => (

@@ -1,9 +1,12 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/db/prisma";
-import { formatDate } from "@/lib/utils";
+import { formatDate, calculateReadingTime, formatReadingTime } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import NewsletterPopup from "@/components/NewsletterPopup";
+import RelatedArticles from "@/components/RelatedArticles";
+import SocialShare from "@/components/SocialShare";
+import { getRelatedArticles } from "@/lib/related-articles";
 
 export const revalidate = 3600;
 
@@ -31,6 +34,9 @@ export default async function BlogPostPage({
   if (!post || !post.published) {
     notFound();
   }
+
+  // Get related articles based on tags
+  const relatedArticles = await getRelatedArticles(post.id, post.tags);
 
   return (
     <div className="min-h-screen">
@@ -66,6 +72,13 @@ export default async function BlogPostPage({
               <time dateTime={post.publishedAt?.toISOString()}>
                 {post.publishedAt ? formatDate(post.publishedAt) : ''}
               </time>
+              <span>•</span>
+              <span className="flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {formatReadingTime(calculateReadingTime(post.content))}
+              </span>
               {post.author && (
                 <>
                   <span>•</span>
@@ -92,6 +105,18 @@ export default async function BlogPostPage({
           <div className="prose prose-lg dark:prose-invert max-w-none">
             <ReactMarkdown>{post.content}</ReactMarkdown>
           </div>
+
+          {/* Social Share */}
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            <SocialShare
+              title={post.title}
+              url={`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/blog/${post.slug}`}
+              description={post.excerpt}
+            />
+          </div>
+
+          {/* Related Articles */}
+          <RelatedArticles articles={relatedArticles} />
 
           {/* CTA */}
           <div className="mt-12 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
