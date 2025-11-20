@@ -258,24 +258,24 @@ List business processes across three dimensions:
 
 **Structure:**
 
-```
-Company Prompt Library
+Example Prompt Library:
 
-Category: Customer Service
-  - Order Status Response
-  - Refund Request
-  - Technical Troubleshooting
+  Company Prompt Library
 
-Category: Marketing
-  - Blog Post Outline
-  - Social Media Variants
-  - Email Newsletter
+  Category: Customer Service
+    - Order Status Response
+    - Refund Request
+    - Technical Troubleshooting
 
-Category: Sales
-  - Follow-Up Email
-  - Proposal Summary
-  - Meeting Recap
-```
+  Category: Marketing
+    - Blog Post Outline
+    - Social Media Variants
+    - Email Newsletter
+
+  Category: Sales
+    - Follow-Up Email
+    - Proposal Summary
+    - Meeting Recap
 
 **Prompt Template Format:**
 
@@ -283,25 +283,26 @@ Category: Sales
 **Use When:** Customer asks about order status
 **Tool:** ChatGPT or Claude
 **Prompt:**
-```
-You are a helpful customer service representative for [Company].
 
-Customer question: [paste customer email]
+Example Prompt Template:
 
-Context:
-- Order number: [X]
-- Current status: [Y]
-- Expected delivery: [Z]
+  You are a helpful customer service representative for [Company].
 
-Write a friendly, professional response that:
-1. Acknowledges their question
-2. Provides current status
-3. Sets clear expectations
-4. Offers next steps if needed
+  Customer question: [paste customer email]
 
-Tone: Warm, professional, solution-oriented
-Length: 3-4 sentences
-```
+  Context:
+  - Order number: [X]
+  - Current status: [Y]
+  - Expected delivery: [Z]
+
+  Write a friendly, professional response that:
+  1. Acknowledges their question
+  2. Provides current status
+  3. Sets clear expectations
+  4. Offers next steps if needed
+
+  Tone: Warm, professional, solution-oriented
+  Length: 3-4 sentences
 
 **Versioning:** Track what works
 - V1 (Jan 2026): Initial template

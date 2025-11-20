@@ -273,27 +273,27 @@ Total: $350/month AI costs vs $5,000/month fully manual
 
 **Test Framework:**
 
-```
-Use Case: Customer Service Email Responses
+Example Test Setup:
 
-Models to Test: ChatGPT (GPT-5.1), Claude Sonnet, GPT-4o-mini
+  Use Case: Customer Service Email Responses
 
-Test Set: 50 real customer emails (simple to complex)
+  Models to Test: ChatGPT (GPT-5.1), Claude Sonnet, GPT-4o-mini
 
-Evaluation Criteria:
-- Accuracy (correct information)
-- Tone (professional, empathetic)
-- Completeness (addresses all questions)
-- Safety (no problematic statements)
+  Test Set: 50 real customer emails (simple to complex)
 
-Results after testing:
-- GPT-5.1: 46/50 good responses
-- Claude Sonnet: 47/50 good responses
-- GPT-4o-mini: 40/50 good responses
+  Evaluation Criteria:
+  - Accuracy (correct information)
+  - Tone (professional, empathetic)
+  - Completeness (addresses all questions)
+  - Safety (no problematic statements)
 
-Decision: Claude Sonnet (slight quality edge matters for brand)
-Optimization: Use GPT-4o-mini for order status queries (handles perfectly, 5x cheaper)
-```
+  Results after testing:
+  - GPT-5.1: 46/50 good responses
+  - Claude Sonnet: 47/50 good responses
+  - GPT-4o-mini: 40/50 good responses
+
+  Decision: Claude Sonnet (slight quality edge matters for brand)
+  Optimization: Use GPT-4o-mini for order status queries (handles perfectly, 5x cheaper)
 
 ## Red Flags: When NOT to Choose a Model
 
